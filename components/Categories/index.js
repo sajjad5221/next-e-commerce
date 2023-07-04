@@ -3,29 +3,17 @@ import React from "react";
 import styles from "./categories.module.scss";
 import Link from "next/link";
 import HelpIcon from "@/icons/help";
-
-const CategoryItem = ({ name, link, emoji }) => {
-  return (
-    <li className={styles.categoryItem}>
-      <Link href={link || "/"}>
-        <a>
-          <span className={styles.emoji}>{emoji}</span>
-          <span className={styles.categoryName}>{name}</span>
-        </a>
-      </Link>
-    </li>
-  );
-};
+import fa from '@/lang/fa.json'
+import CategoryItem from "./CategoryItem";
 
 export default function CategoriesBar() {
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Explore</h2>
+      <h2 className={styles.title}>{fa.categories.title}</h2>
       <ul className={styles.categories}>
-        <CategoryItem name="New In" emoji="⚡" link="/" />
-        <CategoryItem name="Clothing" emoji="👚" link="/category/clothing" />
-        <CategoryItem name="Shoes" emoji="👠" link="/category/shoes" />
-        <CategoryItem
+        <CategoryItem name={fa.categories.accessories} emoji="💎" link="/category/clothing" />
+        <CategoryItem name={fa.categories.shoes} emoji="👠" link="/category/shoes" />
+        {/* <CategoryItem
           name="Accessories"
           emoji="👜"
           link="/category/accessories"
@@ -44,7 +32,7 @@ export default function CategoriesBar() {
           name="Inspiration"
           emoji="💎"
           link="/category/inspiration"
-        />
+        /> */}
       </ul>
       <div className={styles.helpContainer}>
         <div className={styles.helpIcon}>

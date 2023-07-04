@@ -12,7 +12,8 @@ import { db, auth } from "@/config/firebase";
 import { useCart } from "hooks/cart.hook";
 import { useRouter } from "next/router";
 import MenuIcon from "@/icons/menu";
-
+// import Image from "next/image";
+import fa from "@/lang/fa"
 export default function Header() {
   const [showHeader, setShowHeader] = useState({
     transform: "translate3d(100vw, 0, 0)",
@@ -30,7 +31,8 @@ export default function Header() {
     <nav className={styles.container}>
       <div className={styles.logoContainer}>
         <Link href="/">
-          <a className={styles.logo}>Shopping</a>
+          {/* <Image src="/logo.png" width={100} height={100} /> */}
+          <a className={styles.logo}>{fa.title}</a>
         </Link>
         <div className={styles.rightContentMobile}>
           <Link href="/cart">
@@ -93,7 +95,7 @@ export default function Header() {
         >
           <input
             className={styles.searchInput}
-            placeholder="Search for products, brands and more... "
+            placeholder={fa.placeholders.search}
             onChange={(e) => setInput(e.target.value)}
           />
         </form>

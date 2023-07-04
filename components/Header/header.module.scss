@@ -16,7 +16,7 @@
   }
 
   .logoContainer {
-    font-family: "Sansita Swashed", cursive;
+    // font-family: "Sansita Swashed", cursive;
     font-size: 28px;
     width: 100%;
     margin-top: -10px;
@@ -24,7 +24,7 @@
     align-items: center;
 
     @include md {
-      font-size: 32px;
+      font-size: 28px;
       width: 210px;
     }
 

@@ -10,20 +10,20 @@ import { db } from "config/firebase";
 import Layout from "components/Layout";
 
 import { useAuth } from "../firebase/context";
+import fa from "lang/fa.json";
 
 export default function Home() {
   const auth = useAuth();
-
   return (
     <Layout>
       <div className={styles.container}>
         <Head>
-          <title>Create Next App</title>
+          <title>{fa.meta.title}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <main className={styles.main}>
-          <div className={styles.header}>
+          {/* <div className={styles.header}>
             <h1 className={styles.title}>
               <span className={styles.emoji}>⚡</span>New In
             </h1>
@@ -31,7 +31,7 @@ export default function Home() {
               <Button type="sort" style={{ marginRight: 20 }} />
               <Button count={0} />
             </div>
-          </div>
+          </div> */}
 
           <Products>
             <HorizontalCard

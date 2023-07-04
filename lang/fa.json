@@ -1,0 +1,21 @@
+{
+    "meta": {
+        "title": "فروشگاه اینترنتی",
+        "description": "فروشگاه اینترنتی",
+        "keywords": "فروشگاه اینترنتی"
+    },
+    "title": "فروشگاه خوشگل خانوم!",
+    "welcome": "خوش آمدید به فروشگاه ما",
+    "featured_products": "محصولات ویژه",
+    "popular_products": "محصولات محبوب",
+    "new_arrivals": "محصولات جدید",
+    "shop_now": "همین حالا خرید کنید",
+    "categories": {
+        "title": "دسته بندی ها",
+        "accessories": "بدلیجات",
+        "shoes": "کفش"
+    },
+    "placeholders": {
+        "search": "نام محصول مورد نطرتون جستجو کنید..."
+    }
+}
