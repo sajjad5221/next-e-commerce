@@ -12,7 +12,7 @@ import { db, auth } from "@/config/firebase";
 import { useCart } from "hooks/cart.hook";
 import { useRouter } from "next/router";
 import MenuIcon from "@/icons/menu";
-// import Image from "next/image";
+// import Image from 'next/image'
 import fa from "@/lang/fa"
 export default function Header() {
   const [showHeader, setShowHeader] = useState({
@@ -31,8 +31,8 @@ export default function Header() {
     <nav className={styles.container}>
       <div className={styles.logoContainer}>
         <Link href="/">
-          {/* <Image src="/logo.png" width={100} height={100} /> */}
-          <a className={styles.logo}>{fa.title}</a>
+          <img src="/logo.jpeg" width={100} height={100} />
+          {/* <a className={styles.logo}>{fa.title}</a> */}
         </Link>
         <div className={styles.rightContentMobile}>
           <Link href="/cart">

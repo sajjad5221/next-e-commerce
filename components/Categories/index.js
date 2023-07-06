@@ -1,38 +1,28 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import styles from "./categories.module.scss";
-import Link from "next/link";
+import { db } from "@/config/firebase";
 import HelpIcon from "@/icons/help";
 import fa from '@/lang/fa.json'
 import CategoryItem from "./CategoryItem";
 
 export default function CategoriesBar() {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    db.collection("categories").get().then((data) => {
+      const newCategories = [];
+      data.forEach((doc) => {
+        newCategories.push({ id: doc.id, ...doc.data() });
+      });
+      setCategories(newCategories);
+    });
+  }, []);
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{fa.categories.title}</h2>
       <ul className={styles.categories}>
-        <CategoryItem name={fa.categories.accessories} emoji="💎" link="/category/clothing" />
-        <CategoryItem name={fa.categories.shoes} emoji="👠" link="/category/shoes" />
-        {/* <CategoryItem
-          name="Accessories"
-          emoji="👜"
-          link="/category/accessories"
-        />
-        <CategoryItem
-          name="Activewear"
-          emoji="🤸"
-          link="/category/activewear"
-        />
-        <CategoryItem
-          name="Gifts & Living"
-          emoji="🎁"
-          link="/category/gifts_and_living"
-        />
-        <CategoryItem
-          name="Inspiration"
-          emoji="💎"
-          link="/category/inspiration"
-        /> */}
+        {categories.map((category) => {
+          return <CategoryItem key={category.id} name={category.name} emoji={category.emoji} link={`/category/${category.id}`} />
+        })}
       </ul>
       <div className={styles.helpContainer}>
         <div className={styles.helpIcon}>

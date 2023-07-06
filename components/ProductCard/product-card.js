@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import firebase from "firebase/app";
 import styles from "./product.module.scss";
 import HeartIcon from "@/icons/heart";
 import Link from "next/link";
@@ -7,7 +7,8 @@ import HeartFilled from "@/icons/heart-filled";
 import { addFavorite, removeFavorite } from "@/firebase/product";
 import { useRouter } from "next/router";
 import { useAuth } from "@/firebase/context";
-
+// import Image from "next/image";
+import "firebase/storage";
 export default function ProductCard({
   bgColor,
   id,
@@ -25,6 +26,16 @@ export default function ProductCard({
 
   const router = useRouter();
 
+  // const imageUrl = firebase.storage().ref(image).toString();
+  const [imageUrl, setImageUrl] = useState(null)
+  useEffect(() => {
+    const storageRef = firebase.storage().ref()
+    const imageRef = storageRef.child(image)
+
+    imageRef.getDownloadURL().then((url) => {
+      setImageUrl(url)
+    })
+  }, [])
   const removeEvent = (id) => {
     removeFavorite(id);
     setFavorite(false);
@@ -55,6 +66,7 @@ export default function ProductCard({
       onClick={(e) => goToProduct(e.target)}
       {...props}
     >
+
       <button className={styles.favContainer} onClick={favoriteEvent}>
         {isFavorite ? (
           <HeartFilled width={16} height={16} />
@@ -63,7 +75,9 @@ export default function ProductCard({
         )}
       </button>
       <div className={styles.imageContainer}>
-        {image && <img className={styles.image} src={image} loading="lazy" />}
+        <img src={imageUrl} className={styles.image} />
+        {/* <Image src={imageUrl} /> */}
+        {/* {image && <img className={styles.image} src={image} loading="lazy" />} */}
       </div>
       <div className={styles.textContainer}>
         <Link href={`/brand/${brand}`}>

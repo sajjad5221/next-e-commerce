@@ -7,7 +7,7 @@ import { useAuth } from "@/firebase/context";
 import { db } from "@/config/firebase";
 import Button from "@/components/FilterButton";
 import ProductCard from "@/components/ProductCard/product-card";
-
+import Link from "next/link";
 const getEmoji = {
   clothing: "👚",
   shoes: "👠",
@@ -19,14 +19,6 @@ const getEmoji = {
 
 export default function Category({ data, query }) {
   const { user, loading } = useAuth();
-
-  console.log(user, loading);
-
-  const formattedName =
-    query.category === "gifts_and_living"
-      ? "Gifts & Living"
-      : query.category[0].toUpperCase() + query.category.slice(1);
-
   return (
     <Layout>
       <div className={styles.container}>
@@ -37,10 +29,6 @@ export default function Category({ data, query }) {
 
         <main className={styles.main}>
           <div className={styles.header}>
-            <h1 className={styles.title}>
-              <span className={styles.emoji}>{getEmoji[query.category]}</span>
-              {formattedName}
-            </h1>
             <div className={styles.headerButtons}>
               <Button type="sort" style={{ marginRight: 20 }} />
               <Button count={0} />
@@ -50,16 +38,18 @@ export default function Category({ data, query }) {
             {!loading &&
               data.map((product) => {
                 return (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    brand={product.brand}
-                    name={product.product_name}
-                    image={product.cover_photo}
-                    price={product.price}
-                    sale_price={product.sale_price}
-                    favorite={user?.favorites?.includes(product.id)}
-                  />
+                  <Link href={`/products/${product.id}`}>
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      brand={product.brand}
+                      name={product.name}
+                      image={product.cover_photo}
+                      price={product.price}
+                      sale_price={product.sale_price}
+                    // favorite={user?.favorites?.includes(product.id)}
+                    />
+                  </Link>
                 );
               })}
           </div>
@@ -69,25 +59,33 @@ export default function Category({ data, query }) {
   );
 }
 
-Category.getInitialProps = async function ({ query }) {
+export async function getStaticProps({ params }) {
   let data = {};
   let error = {};
-
+  console.log("params is :", params)
   await db
-    .collection("Products")
-    .where("category", "==", query.category.toLowerCase())
+    .collection("products")
+    .where("category_id", "==", parseInt(params.category))
     .get()
     .then(function (querySnapshot) {
       const products = querySnapshot.docs.map(function (doc) {
-        return { id: doc.id, ...doc.data() };
+        return { id: doc.id, ...doc.data(), category_id: params.category };
       });
       data = products;
     })
     .catch((e) => (error = e));
-
   return {
-    data,
-    error,
-    query,
+    props: {
+      data,
+      error,
+    },
   };
-};
+}
+export async function getStaticPaths() {
+  const categories = await db.collection('categories').get();
+  const paths = categories.docs.map((doc) => ({
+    params: { category: doc.id },
+  }));
+
+  return { paths, fallback: false };
+}

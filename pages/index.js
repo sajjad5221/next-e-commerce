@@ -12,7 +12,8 @@ import Layout from "components/Layout";
 import { useAuth } from "../firebase/context";
 import fa from "lang/fa.json";
 
-export default function Home() {
+export default function Home({ products, categories }) {
+  console.log("Home.products:", products)
   const auth = useAuth();
   return (
     <Layout>
@@ -118,4 +119,34 @@ export default function Home() {
       </div>
     </Layout>
   );
+}
+// initail props
+// Home.getInitialProps = async () => {
+//   console.log("Home.initialProps")
+//   const data = await db.collection("products").get();
+//   const products = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+//   // console.log("products:", data)
+//   return { products };
+// }
+
+export async function getStaticProps() {
+  // const data = await db.collection("products").get();
+  // console.log("data", data)
+  // const products = data.docs.map((doc) => ({ id: doc.id, ...doc.data(), category_id: doc.data().category_id.id }));
+  // return {
+  //   props: {
+  //     products,
+  //   },
+  // };
+  // const categories = await db.collection("categories").get();
+  const products = await db.collection("products").get();
+  console.log("products:", products)
+  // const categoriesData = categories.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const productsData = products.docs.map((doc) => ({ id: doc.id, category_id: doc.category_id, ...doc.data() }));
+  return {
+    props: {
+      // categories: categoriesData,
+      products: productsData,
+    },
+  };
 }
