@@ -38,7 +38,7 @@ export default function Category({ data, query }) {
             {!loading &&
               data.map((product) => {
                 return (
-                  <Link href={`/products/${product.id}`}>
+                  <Link href={`/product/${product.id}`}>
                     <ProductCard
                       key={product.id}
                       id={product.id}
